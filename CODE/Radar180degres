@@ -3,7 +3,7 @@ const int trigPin = 9;
 const int echoPin = 10;
 
 //Variables
-long duree; //Duree sur 4 octets
+long temps; //Duree sur 4 octets
 int distance; //Distance sur 2 octets
 
 Servo myServo; // Création d'un objet "servo" qui nous permettra de contrôler le moteur
@@ -14,24 +14,10 @@ void setup() {
   pinMode(trigPin, OUTPUT); // trigPin en Output
   pinMode(echoPin, INPUT); //EchoPin en Input
   myServo.attach(3); //Sortie moteur
-  }
+}
 
 
 void loop() {
-  // Fonction de mesure de la distance par ultra-sons
-  int calculerDistance(){ 
-  
-  digitalWrite(trigPin, LOW); 
-  delayMicroseconds(2);
-  digitalWrite(trigPin, HIGH); // génération de l'impulsion Trig de 10 µs
-  delayMicroseconds(10);
-  digitalWrite(trigPin, LOW);
-  temps = pulseIn(echoPin, HIGH); // lecture de la durée de l'impulsion Echo en µs
-  distance= temps*0.034/2;
-  return distance;
-  }
-
-  
   //On fait tourner le moteur de 0 à 180 degrés
   for(int i=0;i<=180;i++){  
   myServo.write(i);
@@ -47,12 +33,23 @@ void loop() {
   for(int i=180;i>0;i--){  
   myServo.write(i);
   delay(30);
-  distance = calculateDistance();
+  distance = calculerDistance();
   Serial.print(i);
   Serial.print(",");
   Serial.print(distance);
   Serial.print(".");
   }
- }
-
 }
+
+  // Fonction de mesure de la distance par ultra-sons
+  int calculerDistance(){ 
+  
+  digitalWrite(trigPin, LOW); 
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH); // génération de l'impulsion Trig de 10 µs
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  temps = pulseIn(echoPin, HIGH); // lecture de la durée de l'impulsion Echo en µs
+  distance= temps*0.034/2;
+  return distance;
+  }
