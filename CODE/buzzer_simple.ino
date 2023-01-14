@@ -1,4 +1,4 @@
-int buzzer = 8;
+int buzzer = 7;
 
 
 
